@@ -1,0 +1,11 @@
+name = "pma"
+main = "index.js"
+compatibility_date = "2024-09-01"
+
+[triggers]
+crons = ["0 9 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "period-db"
+database_id = "PUT_YOUR_D1_DATABASE_ID_HERE"
