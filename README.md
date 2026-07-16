@@ -1,7 +1,7 @@
 # Period Tracker Telegram Bot
 
 * 🇺🇸 [English](https://github.com/kiaashkan/period-tracker-bot/blob/main/README.md)
-* 🇮🇷 [فارسی](https://github.com/kiaashkan/period-tracker-bot/blob/main/Readme-fa.md)
+* 🇮🇷 [فارسی](https://github.com/kiaashkan/period-tracker-bot/blob/main/README-FA.md)
 
 
 Cloudflare Worker that predicts the next period date based on a fixed cycle length and sends Telegram alerts as it approaches (7, 3, 2, 1 days before, and the day of).
