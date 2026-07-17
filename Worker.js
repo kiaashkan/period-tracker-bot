@@ -46,6 +46,15 @@ function predictNext(lastStart, cycleLength, today) {
   return new Date(today.getTime() + daysUntilNext * DAY_MS);
 }
 
+function getCycleStatus(lastStart, cycleLength, periodLength, today) {
+  const daysSince = Math.floor((today.getTime() - lastStart.getTime()) / DAY_MS);
+  const mod = ((daysSince % cycleLength) + cycleLength) % cycleLength;
+  if (mod < periodLength) {
+    return { inPeriod: true, dayOfPeriod: mod + 1, daysLeft: periodLength - mod - 1 };
+  }
+  return { inPeriod: false };
+}
+
 async function sendMessage(env, text) {
   await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage`, {
     method: "POST",
@@ -55,7 +64,7 @@ async function sendMessage(env, text) {
 }
 
 async function handleScheduled(env) {
-  const { lastStart, cycleLength } = await getConfig(env);
+  const { lastStart, cycleLength, periodLength } = await getConfig(env);
   if (!lastStart) return; // not configured yet
   const today = todayUTC();
   const next = predictNext(lastStart, cycleLength, today);
@@ -66,7 +75,7 @@ async function handleScheduled(env) {
     3: `⏳ ۳ روز تا پریود احتمالی دوست دخترت مونده (تقریبا ${fmt(next)}).`,
     2: `⏳ ۲ روز تا پریود احتمالی مونده (تقریبا ${fmt(next)}).`,
     1: `⏳ فردا احتمال شروع پریودشه.`,
-    0: `🔴 امروز احتمال شروع پریودشه`,
+    0: `🔴 امروز احتمالا روز شروع پریودشه. تقریبا ${periodLength} روز طول می‌کشه .`,
   };
 
   if (messages[daysUntil]) {
@@ -74,19 +83,33 @@ async function handleScheduled(env) {
   }
 }
 
+function toEnglishDigits(str) {
+  const persian = "۰۱۲۳۴۵۶۷۸۹";
+  const arabic = "٠١٢٣٤٥٦٧٨٩";
+  return str.replace(/[۰-۹٠-٩]/g, (ch) => {
+    const p = persian.indexOf(ch);
+    if (p !== -1) return String(p);
+    const a = arabic.indexOf(ch);
+    if (a !== -1) return String(a);
+    return ch;
+  });
+}
+
 async function handleCommand(env, text) {
-  const [cmd, ...args] = text.trim().split(/\s+/);
-  const { lastStart, cycleLength } = await getConfig(env);
+  const [cmd, ...rawArgs] = text.trim().split(/\s+/);
+  const args = rawArgs.map(toEnglishDigits);
+  const { lastStart, cycleLength, periodLength } = await getConfig(env);
   const today = todayUTC();
   const next = lastStart ? predictNext(lastStart, cycleLength, today) : null;
   const daysUntil = next ? Math.round((next.getTime() - today.getTime()) / DAY_MS) : null;
+  const status = lastStart ? getCycleStatus(lastStart, cycleLength, periodLength, today) : null;
 
   switch (cmd) {
     case "/start":
     case "/help":
       return (
         "دستورات:\n" +
-        "/next - تاریخ پیش‌بینی پریود بعدی\n" +
+        "/next - تاریخ پیش‌بینی پریود بعدی (یا اگه الان تو پریوده، چند روز مونده تموم بشه)\n" +
         "/setstart YYYY-MM-DD - ثبت تاریخ آخرین شروع پریود (اول کار لازمه، بعدش خودکار جلو می‌ره)\n" +
         "/setcycle N - تنظیم طول سیکل (روز، پیش‌فرض ۲۸)\n" +
         "/setlength N - تنظیم طول پریود (روز، پیش‌فرض ۵)"
@@ -94,6 +117,11 @@ async function handleCommand(env, text) {
 
     case "/next":
       if (!next) return "هنوز تاریخ شروع ثبت نشده. اول بزن: /setstart YYYY-MM-DD";
+      if (status.inPeriod) {
+        return status.daysLeft > 0
+          ? `الان تو پریوده، روز ${status.dayOfPeriod} از ${periodLength}. حدود ${status.daysLeft} روز دیگه تموم می‌شه.`
+          : `الان تو پریوده، روز ${status.dayOfPeriod} از ${periodLength} - احتمالا امروز آخرین روزشه.`;
+      }
       return `پیش‌بینی شروع پریود بعدی: ${fmt(next)} (${daysUntil} روز دیگه)`;
 
     case "/setstart": {
