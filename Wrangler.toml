@@ -1,5 +1,5 @@
-name = "pma"
-main = "index.js"
+name = "period-tracker-bot"
+main = "Worker.js"
 compatibility_date = "2024-09-01"
 
 [triggers]
