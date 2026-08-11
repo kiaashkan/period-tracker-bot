@@ -57,7 +57,7 @@ A Cloudflare Worker Telegram bot that predicts the next period start date based 
 - In your Worker → **Settings** → **Trigger events** (Cron Triggers) → **Add**.
 - Switch to the **Cron expression** tab and enter:
   ```
-  0 9 * * *
+  0 21 * * *
   ```
   (runs every day at 9:00 AM UTC — adjust the hour if you want a different time)
 - Click **Add**.
