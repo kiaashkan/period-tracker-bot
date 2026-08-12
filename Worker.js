@@ -65,8 +65,13 @@ const T = {
   },
 };
 
-function todayUTC() {
-  const d = new Date();
+const IRAN_OFFSET_MS = 3.5 * 60 * 60 * 1000; // Iran Standard Time, UTC+3:30 (no DST)
+
+function todayLocal() {
+  // Compute "today" as a calendar day in Iran time, regardless of when the
+  // cron actually runs in UTC. This keeps /next and the alerts in sync with
+  // the day the person actually reads the message on.
+  const d = new Date(Date.now() + IRAN_OFFSET_MS);
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 }
 
@@ -162,7 +167,7 @@ async function handleScheduled(env) {
   const { lastStart, cycleLength, periodLength, lang } = await getConfig(env);
   if (!lastStart || !lang) return; // not fully configured yet
   const t = T[lang];
-  const today = todayUTC();
+  const today = todayLocal();
   const next = predictNext(lastStart, cycleLength, today);
   const daysUntil = Math.round((next.getTime() - today.getTime()) / DAY_MS);
   const nextStr = fmt(next);
@@ -191,7 +196,7 @@ async function handleCommand(env, text) {
   }
 
   const t = lang ? T[lang] : null;
-  const today = todayUTC();
+  const today = todayLocal();
   const next = lastStart ? predictNext(lastStart, cycleLength, today) : null;
   const daysUntil = next ? Math.round((next.getTime() - today.getTime()) / DAY_MS) : null;
   const status = lastStart ? getCycleStatus(lastStart, cycleLength, periodLength, today) : null;
