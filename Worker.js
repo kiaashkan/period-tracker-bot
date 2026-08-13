@@ -50,7 +50,7 @@ const T = {
         ? `الان تو دوره‌ای، روز ${day} از ${total}. حدود ${left} روز دیگه تموم می‌شه.`
         : `الان تو دوره‌ای، روز ${day} از ${total} - احتمالا امروز آخرین روزشه.`,
     nextPrediction: (date, days) => `پیش‌بینی شروع دوره بعدی: ${date} (${days} روز دیگه)`,
-    setstartFormat: "فرمت درست: /setstart 2026-08-11",
+    setstartFormat: "فرمت درست: /setstart 2026-01-01",
     setstartDone: (d) => `ثبت شد. تاریخ شروع دوره روی ${d} تنظیم شد.`,
     setcycleRange: "یه عدد معقول بین ۱۵ تا ۴۵ بده.",
     setcycleDone: (n) => `طول سیکل روی ${n} روز تنظیم شد.`,
