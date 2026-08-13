@@ -21,7 +21,7 @@ const T = {
         ? `Currently in a period, day ${day} of ${total}. About ${left} more day(s) left.`
         : `Currently in a period, day ${day} of ${total} - today is likely the last day.`,
     nextPrediction: (date, days) => `Predicted next period start: ${date} (${days} day(s) away)`,
-    setstartFormat: "Correct format: /setstart 2026-08-11",
+    setstartFormat: "Correct format: /setstart 2026-01-01",
     setstartDone: (d) => `Saved. Period start date set to ${d}.`,
     setcycleRange: "Please give a reasonable number between 15 and 45.",
     setcycleDone: (n) => `Cycle length set to ${n} days.`,
