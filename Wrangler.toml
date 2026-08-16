@@ -5,6 +5,9 @@ compatibility_date = "2024-09-01"
 [triggers]
 crons = ["0 21 * * *"]
 
+[vars]
+BOT_USERNAME = "your_bot_username"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "period-db"
