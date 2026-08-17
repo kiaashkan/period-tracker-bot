@@ -26,9 +26,3 @@ CREATE TABLE IF NOT EXISTS cycle_history (
   start_date TEXT NOT NULL,
   PRIMARY KEY (chat_id, start_date)
 );
-
--- Per-chat language preference, independent of owner/viewer role
-CREATE TABLE IF NOT EXISTS chat_settings (
-  chat_id TEXT PRIMARY KEY,
-  lang TEXT
-);
