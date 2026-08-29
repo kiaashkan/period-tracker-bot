@@ -98,6 +98,7 @@ Set `BOT_USERNAME` as a plain variable in `Wrangler.toml` under `[vars]`, or add
 | Command | Description |
 |---|---|
 | `/start` | Choose how to use the bot (track for yourself, or follow someone via invite) |
+| `/help` | Show the command list again |
 | `/next` | Predicted next start date, or days left if currently in a period |
 | `/today` | Mark today as the period start date (shortcut for `/setstart` with today's date) |
 | `/setstart YYYY-MM-DD` | Record your last period start date |
