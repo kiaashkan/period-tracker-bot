@@ -111,6 +111,8 @@ Set `BOT_USERNAME` as a plain variable in `Wrangler.toml` under `[vars]`, or add
 
 Every alert message also comes with a **"How's today?"** button for a one-tap status check.
 
+You can send `/start` or `/help` at any time to see this menu or command list again.
+
 ## Files
 
 - `Worker.js` — the Worker code
