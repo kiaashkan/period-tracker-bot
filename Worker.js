@@ -15,6 +15,7 @@ const M = {
     "After that, /invite gives you a code (and a link) to share with your partner.",
   inviteModeInfo: "Ask your partner for their invite code (they get it with /invite), then send: /link CODE",
   help:
+    "Tip: send /start anytime to see the menu again, or /help to see this list again.\n\n" +
     "Commands:\n" +
     "/next - predicted next period start date (or days left if currently in a period)\n" +
     "/today - mark today as the period start date (shortcut for /setstart with today's date)\n" +
