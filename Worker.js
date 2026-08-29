@@ -17,6 +17,7 @@ const M = {
   help:
     "Tip: send /start anytime to see the menu again, or /help to see this list again.\n\n" +
     "Commands:\n" +
+    "/help - show this list again\n" +
     "/next - predicted next period start date (or days left if currently in a period)\n" +
     "/today - mark today as the period start date (shortcut for /setstart with today's date)\n" +
     "/setstart YYYY-MM-DD - record your last period start date (required once, then it auto-advances)\n" +
